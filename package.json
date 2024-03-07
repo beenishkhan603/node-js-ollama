@@ -1,0 +1,20 @@
+{
+	"name": "ollama-server",
+	"type": "module",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon index.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.20.2",
+		"express": "^4.18.3",
+		"nodemon": "^3.1.0",
+		"ollama": "^0.4.9",
+		"ollama-node": "^0.1.27"
+	}
+}
