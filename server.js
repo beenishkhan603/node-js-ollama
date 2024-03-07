@@ -15,9 +15,11 @@ app.get('/', (req, res) => {
 // Define the endpoint
 app.post('/api/query', async (req, res) => {
 	const { query } = req.body;
+	console.log('query', query);
 
 	try {
 		// Call the test function with the provided query
+		console.log('in try');
 		const response = await test(query);
 
 		// Send the response back to the client
