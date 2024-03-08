@@ -42,6 +42,10 @@ const test = async (query) => {
 };
 
 // Start the server
-app.listen(port, () => {
+const server = app.listen(port, () => {
 	console.log(`Server is running on http://localhost:${port}`);
 });
+server.requestTimeout = 610000;
+server.headersTimeout = 610000;
+server.keepAliveTimeout = 600000;
+server.timeout = 600000;
