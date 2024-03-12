@@ -33,12 +33,24 @@ app.post('/api/query', async (req, res) => {
 
 // Test function
 const test = async (query) => {
+	const prompt = [
+		{
+			role: 'system',
+			content:
+				"Be concise, I don't need full explanations. Instead of repeating, just say you said it above. Be direct. Scrutinize my ideas & help me improve. Don't be afraid of being offensive. Think like Peter Theil, Elon Musk, Reid Hoffman, Matt Clifford, Alice Bentinck etc.",
+		},
+		{
+			role: 'user',
+			content:
+				'Based ONLY on the provided information, generate personas for TRA.',
+		},
+	];
 	const response = await ollama.chat({
 		model: 'llama2',
-		messages: [{ role: 'user', content: query }],
+		messages: prompt,
 	});
 
-	return response.message.content;
+	return response;
 };
 
 // Start the server
