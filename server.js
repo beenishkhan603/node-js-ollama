@@ -1,6 +1,7 @@
 import express from 'express';
-import ollama from 'ollama';
 import cors from 'cors';
+import { OpenAI } from 'openai';
+import 'dotenv/config';
 
 const app = express();
 const port = 3000;
@@ -9,9 +10,11 @@ const port = 3000;
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-	res.send('backend up');
+// Initialize OpenAI client
+const client = new OpenAI({
+	apiKey: process.env.OPENAI_KEY,
 });
+
 // Define the endpoint
 app.post('/api/query', async (req, res) => {
 	const { query } = req.body;
@@ -27,30 +30,17 @@ app.post('/api/query', async (req, res) => {
 	} catch (error) {
 		// Handle errors
 		console.error(error);
-		res.status(500).json({ error: error });
+		res.status(500).json({ error: error.message });
 	}
 });
 
 // Test function
 const test = async (query) => {
-	const prompt = [
-		{
-			role: 'system',
-			content:
-				"Be concise, I don't need full explanations. Instead of repeating, just say you said it above. Be direct. Scrutinize my ideas & help me improve. Don't be afraid of being offensive. Think like Peter Theil, Elon Musk, Reid Hoffman, Matt Clifford, Alice Bentinck etc.",
-		},
-		{
-			role: 'user',
-			content:
-				'Based ONLY on the provided information, generate personas for TRA.',
-		},
-	];
-	const response = await ollama.chat({
+	const response = await client.chat.completions.create({
 		model: 'llama2',
-		messages: prompt,
+		messages: query,
 	});
-
-	return response;
+	return response.data.choices[0].text;
 };
 
 // Start the server
