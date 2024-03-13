@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-node_modules
-=======
 node_modules
 .env
-.env*
->>>>>>> 729d5c9 (update: gitignore)
