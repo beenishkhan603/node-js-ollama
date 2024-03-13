@@ -12,20 +12,18 @@ app.use(cors());
 
 // Initialize OpenAI client
 const client = new OpenAI({
-	baseURL: 'http://localhost:11434/v1/',	// you were missing this. please change it to your local server if different
-	apiKey: process.env.OPENAI_KEY,	// we declare this but its not used anywhere so dont worry about it
+	baseURL: 'http://127.0.0.1:11434/v1/', // you were missing this. please change it to your local server if different
+	apiKey: process.env.OPENAI_KEY, // we declare this but its not used anywhere so dont worry about it
 });
+console.log(process.env.OPENAI_KEY);
 
 // Define the endpoint
 app.post('/api/query', async (req, res) => {
 	const { query } = req.body;
-	console.log('query', query);
-
 	try {
 		// Call the test function with the provided query
 		console.log('in try');
-		const response = await test(query);
-		console.log(res)
+		const response = await getModelResponse(query);
 		// Send the response back to the client
 		res.json(response);
 	} catch (error) {
@@ -35,15 +33,11 @@ app.post('/api/query', async (req, res) => {
 	}
 });
 
-// Test function
-// this was wrong. please see docs here https://ollama.com/blog/openai-compatibility 
-// check diff on what things i changed
-const test = async (query) => {
+const getModelResponse = async (query) => {
 	const completion = await client.chat.completions.create({
 		model: 'llama2',
-		messages: [{ role: 'user', content: query }],
+		messages: query,
 	});
-	console.log(completion)
 	return completion.choices[0].message.content;
 };
 
