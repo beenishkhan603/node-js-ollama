@@ -22,7 +22,7 @@ app.post('/api/query', async (req, res) => {
 	const { query } = req.body;
 	try {
 		// Call the test function with the provided query
-		console.log('in try');
+		console.log('in try', query);
 		const response = await getModelResponse(query);
 		// Send the response back to the client
 		res.json(response);
