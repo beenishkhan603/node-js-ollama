@@ -36,7 +36,7 @@ app.post('/api/query', async (req, res) => {
 
 const getModelResponse = async (query) => {
 	const completion = await client.chat.completions.create({
-		model: 'mixtral',
+		model: 'llama2',
 		messages: query,
 	});
 	return completion.choices[0].message.content;
