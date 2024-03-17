@@ -25,6 +25,7 @@ app.post('/api/query', async (req, res) => {
 		console.log('in try', query);
 		const response = await getModelResponse(query);
 		// Send the response back to the client
+		console.log('response', response);
 		res.json(response);
 	} catch (error) {
 		// Handle errors
@@ -35,7 +36,7 @@ app.post('/api/query', async (req, res) => {
 
 const getModelResponse = async (query) => {
 	const completion = await client.chat.completions.create({
-		model: 'llama2',
+		model: 'mixtral',
 		messages: query,
 	});
 	return completion.choices[0].message.content;
