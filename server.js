@@ -22,7 +22,6 @@ app.post('/api/query', async (req, res) => {
 	const { query } = req.body;
 	try {
 		// Call the test function with the provided query
-		console.log('in try', query);
 		const response = await getModelResponse(query);
 		// Send the response back to the client
 		console.log('response', response);
@@ -35,10 +34,13 @@ app.post('/api/query', async (req, res) => {
 });
 
 const getModelResponse = async (query) => {
+	console.log('in get modek');
 	const completion = await client.chat.completions.create({
 		model: 'llama2',
 		messages: query,
+		stream: true,
 	});
+	console.log(completion);
 	return completion.choices[0].message.content;
 };
 
@@ -46,7 +48,4 @@ const getModelResponse = async (query) => {
 const server = app.listen(port, () => {
 	console.log(`Server is running on http://localhost:${port}`);
 });
-server.requestTimeout = 610000;
-server.headersTimeout = 610000;
-server.keepAliveTimeout = 600000;
-server.timeout = 600000;
+//server.setTimeout(610000); // 10 minutes in milliseconds;
