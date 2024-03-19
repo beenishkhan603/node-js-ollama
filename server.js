@@ -41,7 +41,7 @@ const getModelResponse = async (query) => {
 		stream: true,
 	});
 	console.log(completion);
-	return completion.choices[0].message.content;
+	return completion;
 };
 
 // Start the server
