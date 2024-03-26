@@ -36,23 +36,13 @@ app.post('/api/query', async (req, res) => {
 });
 
 const getModelResponse = async (query) => {
-	console.log('in get model');
-	const completionStream = await client.chat.completions.create({
+	console.log('in get modek');
+	const completion = await client.chat.completions.create({
 		model: 'llama2',
 		messages: query,
-		stream: true,
 	});
-
-	let responseText = '';
-	completionStream.on('data', (chunk) => {
-		responseText += chunk;
-		console.log(chunk);
-	});
-
-	completionStream.on('end', () => {
-		console.log('response', responseText);
-		return responseText;
-	});
+	console.log(completion);
+	return completion.choices[0];
 };
 
 // Start the server
