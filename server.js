@@ -37,21 +37,22 @@ app.post('/api/query', async (req, res) => {
 
 const getModelResponse = async (query) => {
 	console.log('in get model');
-	const completionPromise = client.chat.completions.create({
+	const completionStream = await client.chat.completions.create({
 		model: 'llama2',
 		messages: query,
 		stream: true,
 	});
 
-	let response;
-	try {
-		response = await completionPromise;
-	} catch (error) {
-		console.error('Error getting model response:', error);
-	}
+	let responseText = '';
+	completionStream.on('data', (chunk) => {
+		responseText += chunk;
+		console.log(chunk);
+	});
 
-	console.log('response', response);
-	return response;
+	completionStream.on('end', () => {
+		console.log('response', responseText);
+		return responseText;
+	});
 };
 
 // Start the server
