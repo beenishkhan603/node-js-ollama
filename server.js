@@ -19,7 +19,9 @@ console.log(process.env.OPENAI_KEY);
 
 // Define the endpoint
 app.post('/api/query', async (req, res) => {
+	console.log('asdsadad');
 	const { query } = req.body;
+	console.log('asdasdasd', query);
 	try {
 		// Call the test function with the provided query
 		const response = await getModelResponse(query);
@@ -41,7 +43,10 @@ const getModelResponse = async (query) => {
 		stream: true,
 	});
 	console.log(completion);
-	return completion;
+	for (const chunk in completion) {
+		console.log(chunk);
+	}
+	//return completion.choices[0];
 };
 
 // Start the server
